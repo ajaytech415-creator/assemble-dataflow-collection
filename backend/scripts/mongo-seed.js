@@ -89,11 +89,7 @@ const insertSafe = async (Model, docs, label) => {
 
 // ─── Main seed logic ───────────────────────────────────────────────────────────
 const seed = async () => {
-  const uri = process.env.MONGO_URI;
-  if (!uri) {
-    console.error('❌  MONGO_URI is not set. Add it to backend/.env and try again.');
-    process.exit(1);
-  }
+const uri = process.env.MONGO_URI || 'mongodb+srv://assembleAdmin:Asdf0987@ringassemble.wgoopau.mongodb.net/?appName=RingAssemble';
 
   console.log('\n🌱  Connecting to MongoDB Atlas…');
   await mongoose.connect(uri);

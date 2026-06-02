@@ -110,17 +110,26 @@ app.post('/api/vision/extract', visionUpload, extractFromImage);
 // Health check
 app.get('/api/health', (_, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
 
-// Serve frontend static files
-app.use(express.static(path.join(__dirname, '..', 'frontend', 'dist')));
+// Serve frontend static files if they exist (for combined deployments)
+const frontendPath = path.join(__dirname, '..', 'frontend', 'dist');
+import fs from 'fs';
+if (fs.existsSync(frontendPath)) {
+  app.use(express.static(frontendPath));
 
-// SPA catch-all — serve index.html for any non-API route
-app.use((req, res, next) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(__dirname, '..', 'frontend', 'dist', 'index.html'));
-  } else {
+  // SPA catch-all — serve index.html for any non-API route
+  app.use((req, res, next) => {
+    if (!req.path.startsWith('/api')) {
+      const indexPath = path.join(frontendPath, 'index.html');
+      if (fs.existsSync(indexPath)) {
+        return res.sendFile(indexPath);
+      }
+    }
     next();
-  }
-});
+  });
+} else {
+  // If no frontend is built (API-only deployment), just send a basic root response
+  app.get('/', (req, res) => res.send('API Server is running. Frontend is deployed separately.'));
+}
 
 // Connect to MongoDB first, then start the HTTP server
 connectDB().then(() => {

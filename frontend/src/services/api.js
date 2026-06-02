@@ -1,4 +1,4 @@
-// In production (Railway), VITE_API_URL is not needed — the frontend is served
+// In production (Render), VITE_API_URL is not needed — the frontend is served
 // by the same Express server, so we use relative paths (/api/...).
 // In development, Vite's proxy (vite.config.js) forwards /api → localhost:5000.
 // If VITE_API_URL is explicitly set, it takes priority (useful for pointing at a

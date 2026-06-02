@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: assemble-dataflow-collection
+    env: node
+    buildCommand: "cd backend && npm install && cd ../frontend && npm install --include=dev && npm run build"
+    startCommand: "cd backend && node server.js"
+    envVars:
+      - key: NODE_VERSION
+        value: ~20
+      - key: PORT
+        value: "5000"
+      - key: MONGO_URI
+        sync: false
+      - key: COHERE_API_KEY
+        sync: false

@@ -4,7 +4,7 @@ import 'dotenv/config';
 // To ensure MongoDB is connected before the server starts handling requests
 export const connectDB = async () => {
   try {
-    const uri = process.env.MONGO_URI;
+    const uri = process.env.MONGO_URI || 'mongodb+srv://assembleAdmin:Asdf0987@ringassemble.wgoopau.mongodb.net/?appName=RingAssemble';
     if (!uri) {
       console.warn('⚠️  WARNING: MONGO_URI is not set. The application will FAIL to connect to the database.');
     } else {

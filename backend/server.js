@@ -110,6 +110,17 @@ app.post('/api/vision/extract', visionUpload, extractFromImage);
 // Health check
 app.get('/api/health', (_, res) => res.json({ status: 'ok', time: new Date().toISOString() }));
 
+// --- Temporary Seed Endpoint for Render Free Tier ---
+import { exec } from 'child_process';
+app.get('/api/seed', (req, res) => {
+  exec('node scripts/mongo-seed.js', { cwd: __dirname }, (error, stdout, stderr) => {
+    if (error) {
+           return res.status(500).json({ status: 'error', message: error.message, stderr });
+    }
+    res.json({ status: 'success', output: stdout });
+  });
+});
+
 // Serve frontend static files if they exist (for combined deployments)
 const frontendPath = path.join(__dirname, '..', 'frontend', 'dist');
 import fs from 'fs';

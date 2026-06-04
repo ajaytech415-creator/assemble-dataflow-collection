@@ -12,6 +12,7 @@ import { getReturnEntries, createReturnEntry, deleteReturnEntry, replenishReturn
 import { getReworkEntries, createReworkEntry, updateReworkEntry, deleteReworkEntry, exportReworkExcel } from './routes/rework.js';
 import { getRndProducts, createRndProduct, updateRndProduct, deleteRndProduct, getRndEntries, createRndEntry, updateRndEntry, deleteRndEntry, exportRndExcel } from './routes/rnd.js';
 import { visionUpload, extractFromImage } from './routes/vision.js';
+import { initAutoBackup } from './utils/autoBackup.js';
 import { mkdirSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -144,6 +145,8 @@ if (fs.existsSync(frontendPath)) {
 
 // Connect to MongoDB first, then start the HTTP server
 connectDB().then(() => {
+  initAutoBackup(); // Start the automated weekly email backups
+
   const server = app.listen(PORT, '0.0.0.0', () => {
     console.log(`\n✅ MfgPlan Server running at http://0.0.0.0:${PORT}\n`);
   });

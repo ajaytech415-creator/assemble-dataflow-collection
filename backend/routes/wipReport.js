@@ -4,10 +4,7 @@ import { Component } from '../models/Core.js';
 import XLSX from 'xlsx-js-style';
 import { inLocalPeriod } from '../utils/dates.js';
 
-// GET /api/stats/wip-excel?startDate=&endDate=
-export const downloadWipExcel = async (req, res) => {
-  try {
-    const { startDate, endDate } = req.query;
+
 
 export const generateWipExcelBuffer = async (startDate, endDate) => {
   // Fetch all data from MongoDB
